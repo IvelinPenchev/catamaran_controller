@@ -119,9 +119,8 @@ include_directories(
 )
 
 ## Declare a C++ library
-add_library(force_to_pwm
-  src/force_to_pwm.cpp
-)
+add_library(force_to_pwm src/force_to_pwm.cpp)
+add_library(feed_forward_reference src/feed_forward_reference.cpp)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -146,6 +145,7 @@ add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catk
 ## Specify libraries to link a library or executable target against
 target_link_libraries(${PROJECT_NAME}_node
   force_to_pwm
+  feed_forward_reference
   ${catkin_LIBRARIES}
 )
 
