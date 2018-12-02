@@ -9,6 +9,7 @@ add_compile_options(-std=c++11)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
+  gnss_l86_interface
 )
 
 ## System dependencies are found with CMake's conventions
@@ -102,7 +103,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
   INCLUDE_DIRS include
-  LIBRARIES force_to_pwm
+  LIBRARIES 
   CATKIN_DEPENDS roscpp
 #  DEPENDS system_lib
 )
@@ -121,6 +122,8 @@ include_directories(
 ## Declare a C++ library
 add_library(force_to_pwm src/force_to_pwm.cpp)
 add_library(feed_forward_reference src/feed_forward_reference.cpp)
+add_library(test_lib src/test.cpp)
+add_library(esc_lib src/esc_lib.cpp)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -131,6 +134,8 @@ add_library(feed_forward_reference src/feed_forward_reference.cpp)
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(${PROJECT_NAME}_node src/${PROJECT_NAME}_node.cpp)
+add_executable(test_node src/test_node.cpp)
+
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -146,6 +151,16 @@ add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catk
 target_link_libraries(${PROJECT_NAME}_node
   force_to_pwm
   feed_forward_reference
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(test_node
+  test_lib
+  force_to_pwm
+  gnss_l86_lib
+  esc_lib
+  pigpiod_if2
+  pthread
   ${catkin_LIBRARIES}
 )
 

@@ -4,24 +4,24 @@
 
 int main(int argc, char const *argv[])
 {
-    ForceToPWM exampleCalculator;
+    // ForceToPWM exampleCalculator;
 
-    do 
-    {
-        std::cout<< "Select force for left motor" << std::endl;
-        std::cin >>  exampleCalculator.left_motor_force_;
-    }
-    while (exampleCalculator.isLeftForcePossible() == false);
+    // do 
+    // {
+    //     std::cout<< "Select force for left motor" << std::endl;
+    //     std::cin >>  exampleCalculator.left_motor_force_;
+    // }
+    // while (exampleCalculator.isLeftForcePossible() == false);
 
-    do
-    {
-        std::cout<< "Select force for right motor" << std::endl;
-        std::cin >>  exampleCalculator.right_motor_force_;
-    }
-    while (exampleCalculator.isRightForcePossible() == false);
+    // do
+    // {
+    //     std::cout<< "Select force for right motor" << std::endl;
+    //     std::cin >>  exampleCalculator.right_motor_force_;
+    // }
+    // while (exampleCalculator.isRightForcePossible() == false);
 
-    std::cout << "The PWM for the Left motor is: " << exampleCalculator.calculateLeftPWM() << std::endl;
-    std::cout << "The PWM for the Right motor is: " << exampleCalculator.calculateRightPWM() << std::endl;
+    // std::cout << "The PWM for the Left motor is: " << exampleCalculator.calculateLeftPWM() << std::endl;
+    // std::cout << "The PWM for the Right motor is: " << exampleCalculator.calculateRightPWM() << std::endl;
 
     return 0;
 }
