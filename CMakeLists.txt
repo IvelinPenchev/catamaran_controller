@@ -10,7 +10,6 @@ add_compile_options(-std=c++11)
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   gnss_l86_interface
-  catamaran_controller
   std_msgs
   message_generation
 )
