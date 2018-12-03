@@ -8,7 +8,7 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "test_node");
     ROS_INFO("Node initialized!");
     ros::NodeHandle n;
-    PropellerTest test(n, 17);
+    PropellerTest test(n, 17, 27); // Left and Right pins respectively 
 
 
     return 0;

@@ -17,7 +17,7 @@ float ForceToPWM::getLeftPWM(float force)
   if (!check) return -1;
   
   if (left_motor_force_ == 0)
-    pwm = 0;
+    pwm = 1500;
   else if(left_motor_force_ > 0)
     pwm = FUNCTION_LEFT_MOTOR_FORWARD_[0]*left_motor_force_ + FUNCTION_LEFT_MOTOR_FORWARD_[1];
   else if(left_motor_force_ < 0)
@@ -35,7 +35,7 @@ float ForceToPWM::getRightPWM(float force)
   if (!check) return -1;
   
   if (right_motor_force_ == 0)
-    pwm = 0;
+    pwm = 1500;
   else if(right_motor_force_ > 0)
     pwm = FUNCTION_RIGHT_MOTOR_FORWARD_[0]*right_motor_force_ + FUNCTION_RIGHT_MOTOR_FORWARD_[1];
   else if(right_motor_force_ < 0)
