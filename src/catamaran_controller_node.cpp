@@ -1,27 +1,25 @@
 #include <ros/console.h>
 #include "ros/ros.h"
 #include "catamaran_controller/force_to_pwm.h"
+#include <iostream>
 
 int main(int argc, char const *argv[])
 {
-    // ForceToPWM exampleCalculator;
+    ForceToPWM exampleCalculator;
 
-    // do 
-    // {
-    //     std::cout<< "Select force for left motor" << std::endl;
-    //     std::cin >>  exampleCalculator.left_motor_force_;
-    // }
-    // while (exampleCalculator.isLeftForcePossible() == false);
+    float l;
+    float r;
+    std::cout<< "Select force for left motor" << std::endl;
+    std::cin >> l;
+    
+    std::cout<< "Select force for right motor" << std::endl;
+    std::cin >>  r;
 
-    // do
-    // {
-    //     std::cout<< "Select force for right motor" << std::endl;
-    //     std::cin >>  exampleCalculator.right_motor_force_;
-    // }
-    // while (exampleCalculator.isRightForcePossible() == false);
+    l = exampleCalculator.getLeftPWM(l);
+    r = exampleCalculator.getRightPWM(r);
 
-    // std::cout << "The PWM for the Left motor is: " << exampleCalculator.calculateLeftPWM() << std::endl;
-    // std::cout << "The PWM for the Right motor is: " << exampleCalculator.calculateRightPWM() << std::endl;
+    std::cout<< "Left PWM is: " << l << std::endl;
+    std::cout<< "Right PWM is: " << r << std::endl;
 
     return 0;
 }

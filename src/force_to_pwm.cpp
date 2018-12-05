@@ -11,7 +11,7 @@ ForceToPWM::~ForceToPWM() { }
 //Calculates the PWM signal based on the desired force
 float ForceToPWM::getLeftPWM(float force)
 {
-  float pwm = 0.0;
+  float pwm = 1500.0;
 
   bool check = setLeftMotorForce_(force);
   if (!check) return -1;
@@ -19,9 +19,9 @@ float ForceToPWM::getLeftPWM(float force)
   if (left_motor_force_ == 0)
     pwm = 1500;
   else if(left_motor_force_ > 0)
-    pwm = FUNCTION_LEFT_MOTOR_FORWARD_[0]*left_motor_force_ + FUNCTION_LEFT_MOTOR_FORWARD_[1];
+    pwm = FUNCTION_COEF_LEFT_MOTOR_FORWARD_[0]*left_motor_force_ + FUNCTION_COEF_LEFT_MOTOR_FORWARD_[1];
   else if(left_motor_force_ < 0)
-    pwm = FUNCTION_LEFT_MOTOR_BACKWARD_[0]*left_motor_force_ + FUNCTION_LEFT_MOTOR_BACKWARD_[1];
+    pwm = FUNCTION_COEF_LEFT_MOTOR_BACKWARD_[0]*left_motor_force_ + FUNCTION_COEF_LEFT_MOTOR_BACKWARD_[1];
   
   return pwm;
 }
@@ -29,7 +29,7 @@ float ForceToPWM::getLeftPWM(float force)
 //Calculates the PWM signal based on the desired force
 float ForceToPWM::getRightPWM(float force)
 {
-  float pwm = 0.0;
+  float pwm = 1500.0;
 
   bool check = setRightMotorForce_(force);
   if (!check) return -1;
@@ -37,9 +37,9 @@ float ForceToPWM::getRightPWM(float force)
   if (right_motor_force_ == 0)
     pwm = 1500;
   else if(right_motor_force_ > 0)
-    pwm = FUNCTION_RIGHT_MOTOR_FORWARD_[0]*right_motor_force_ + FUNCTION_RIGHT_MOTOR_FORWARD_[1];
+    pwm = FUNCTION_COEF_RIGHT_MOTOR_FORWARD_[0]*right_motor_force_ + FUNCTION_COEF_RIGHT_MOTOR_FORWARD_[1];
   else if(right_motor_force_ < 0)
-    pwm = FUNCTION_RIGHT_MOTOR_BACKWARD_[0]*right_motor_force_ + FUNCTION_RIGHT_MOTOR_BACKWARD_[1];
+    pwm = FUNCTION_COEF_RIGHT_MOTOR_BACKWARD_[0]*right_motor_force_ + FUNCTION_COEF_RIGHT_MOTOR_BACKWARD_[1];
   
   return pwm;
 }

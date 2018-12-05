@@ -11,6 +11,7 @@ PropellerTest::PropellerTest(ros::NodeHandle n, int left_pin, int right_pin)
   cartesian_log_sub_ = n.subscribe("cartesian_log", 1000, &PropellerTest::ready_to_log_callback_, this);
   start_log_ = n.advertise<catamaran_controller::LogInstruction>("log_instruction", 1000);
   first_menu_();
+  ready_to_log_ = true;
 }
 
 PropellerTest::~PropellerTest() { }
@@ -31,10 +32,10 @@ void PropellerTest::first_menu_()
   bool quit = false;
   do 
   {
-   if (!ready_to_log_) 
+    if (false) 
     {
-     ros::spinOnce();
-     continue;
+      ros::spinOnce();
+      // continue;
     }
     
     left_esc_.setSpeed(left_esc_.NEUTRAL);
@@ -227,13 +228,10 @@ void PropellerTest::max_control_()
   ROS_INFO("  2 to put LEFT motor to BACKWARD MAX");
   ROS_INFO("  3 to put RIGHT motor to FORWARD MAX");
   ROS_INFO("  4 to put RIGHT motor to BACKWARD MAX");
-  ROS_INFO("  5 to put BOTH to FORWARD MAX (FORCE)");
-  ROS_INFO("  6 to put BOTH to BACKWARD MAX (FORCE)");
   ROS_INFO("  Any other key to quit");
   int key;
   float left_pwm = 0.0;
   float right_pwm = 0.0;
-  float max_force = 14.5;
 
   do
   {
@@ -244,20 +242,10 @@ void PropellerTest::max_control_()
     else if (key == 2) left_pwm = 500;
     else if (key == 3) right_pwm = 2500;
     else if (key == 4) right_pwm = 500;
-    else if (key == 5) 
-    {
-      right_pwm = converter_.getRightPWM(max_force);
-      left_pwm = converter_.getLeftPWM(max_force);
-    }
-    else if (key == 6) 
-    {
-      right_pwm = converter_.getRightPWM(-max_force);
-      left_pwm = converter_.getLeftPWM(-max_force);
-    }
     else if (key == 0) 
     {
-      right_pwm = 1500;
-      left_pwm = 1500;
+      right_pwm = 0;
+      left_pwm = 0;
     }
     else 
     {
