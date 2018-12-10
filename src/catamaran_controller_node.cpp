@@ -28,7 +28,7 @@ void imu_data_callback(const imu_interface::Gy88Data::ConstPtr& imu_msg)
     // imu_data.acceleration.y = -imu_msg->si_accel_y;
     imu_data.acceleration.x = floorf(imu_msg->si_accel_x * 100) / 100;
     imu_data.acceleration.y = -floorf(imu_msg->si_accel_y * 100) / 100;
-    imu_data.yaw_vel = imu_msg->gyro_z;
+    imu_data.yaw_vel = -imu_msg->gyro_z;
     imu_data.bearing = imu_msg->compass_angle;
     imu_data.timestamp = imu_msg->timestamp;
     new_imu = true;
@@ -72,8 +72,8 @@ int main(int argc, char **argv)
     float angular_gain = 3;
 
     // Damping coefs
-    float damping_surge = 1.44;
-    float damping_yaw = 2.5;
+    float damping_surge = 1.5437;
+    float damping_yaw = 1.20348;
 
     // Forces and torques
     float force_drive;
