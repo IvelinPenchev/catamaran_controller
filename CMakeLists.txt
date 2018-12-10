@@ -8,8 +8,10 @@ add_compile_options(-std=c++11)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  roscpp
   gnss_l86_interface
+  imu_interface
+  cartesian_pose
+  roscpp
   std_msgs
   message_generation
 )
@@ -150,8 +152,13 @@ add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catk
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(${PROJECT_NAME}_node
+  cartesian_pose
   force_to_pwm
-  feed_forward_reference
+  gnss_l86_lib
+  gy_88_lib
+  esc_lib
+  pigpiod_if2
+  pthread
   ${catkin_LIBRARIES}
 )
 
