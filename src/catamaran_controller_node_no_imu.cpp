@@ -134,41 +134,36 @@ int main(int argc, char **argv)
             {
                 current_pose = pose_estimator.cartesian_pose(gps_data);
                 new_gps = false;
+
+                // Calculate error
+                cartesian_error.x = cartesian_ref.position.x - current_pose.position.x;
+                cartesian_error.y = cartesian_ref.position.y - current_pose.position.y;
+                distance_error = sqrt(pow(cartesian_error.x, 2) + pow(cartesian_error.y, 2));
+                bearing_goal = atan2(cartesian_error.y, cartesian_error.x);
+                bearing_error = bearing_goal - imu_data.bearing;
+                if (bearing_error > M_PI) bearing_error -= 2 * M_PI;
+                else if (bearing_error < -M_PI) bearing_error += 2 * M_PI;
+
+                if (distance_error < 2) break;
+                else std::cout << "Distance to destiny -> " << distance_error << std::endl;
+
+                // Calculate speeds
+                linear_speed = distance_error * linear_gain;
+                angular_speed = bearing_error * angular_gain;
+
+                // Calculate forces
+                force_drive = linear_speed * damping_surge;
+                torque_drive = angular_speed * damping_yaw;
+                force_right = (propeller_dist * force_drive - torque_drive) / (2 * propeller_dist);
+                force_left = force_drive - force_right;
+
+                // Calculate signals
+                pwm_left = pwm_converter.getLeftPWM(force_left);
+                pwm_right = pwm_converter.getRightPWM(force_right);
+
+                left_esc.setSpeed(pwm_left);
+                right_esc.setSpeed(pwm_right);
             }
-            else if (new_imu)
-            {
-                current_pose = pose_estimator.cartesian_pose(imu_data);
-                new_imu = false;
-            }
-
-            // Calculate error
-            cartesian_error.x = cartesian_ref.position.x - current_pose.position.x;
-            cartesian_error.y = cartesian_ref.position.y - current_pose.position.y;
-            distance_error = sqrt(pow(cartesian_error.x, 2) + pow(cartesian_error.y, 2));
-            bearing_goal = atan2(cartesian_error.y, cartesian_error.x);
-            bearing_error = bearing_goal - imu_data.bearing;
-            if (bearing_error > M_PI) bearing_error -= 2 * M_PI;
-            else if (bearing_error < -M_PI) bearing_error += 2 * M_PI;
-
-            if (distance_error < 2) break;
-            else std::cout << "Distance to destiny -> " << distance_error << std::endl;
-
-            // Calculate speeds
-            linear_speed = distance_error * linear_gain;
-            angular_speed = bearing_error * angular_gain;
-
-            // Calculate forces
-            force_drive = linear_speed * damping_surge;
-            torque_drive = angular_speed * damping_yaw;
-            force_right = (propeller_dist * force_drive - torque_drive) / (2 * propeller_dist);
-            force_left = force_drive - force_right;
-
-            // Calculate signals
-            pwm_left = pwm_converter.getLeftPWM(force_left);
-            pwm_right = pwm_converter.getRightPWM(force_right);
-
-            left_esc.setSpeed(pwm_left);
-            right_esc.setSpeed(pwm_right);
 
             loop_rate.sleep();
         }

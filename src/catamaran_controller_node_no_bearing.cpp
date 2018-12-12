@@ -149,6 +149,7 @@ int main(int argc, char **argv)
             bearing_error = bearing_goal - imu_data.bearing;
             if (bearing_error > M_PI) bearing_error -= 2 * M_PI;
             else if (bearing_error < -M_PI) bearing_error += 2 * M_PI;
+            bearing_error = 0;
 
             if (distance_error < 2) break;
             else std::cout << "Distance to destiny -> " << distance_error << std::endl;

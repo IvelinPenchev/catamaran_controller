@@ -137,6 +137,8 @@ add_library(esc_lib src/esc_lib.cpp)
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
 add_executable(${PROJECT_NAME}_node src/${PROJECT_NAME}_node.cpp)
+add_executable(${PROJECT_NAME}_node_no_bearing src/${PROJECT_NAME}_node_no_bearing.cpp)
+add_executable(${PROJECT_NAME}_node_no_imu src/${PROJECT_NAME}_node_no_imu.cpp)
 add_executable(test_node src/test_node.cpp)
 
 
@@ -149,9 +151,33 @@ add_executable(test_node src/test_node.cpp)
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(${PROJECT_NAME}_node_no_bearing ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies(${PROJECT_NAME}_node_no_imu ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(${PROJECT_NAME}_node
+  cartesian_pose
+  force_to_pwm
+  gnss_l86_lib
+  gy_88_lib
+  esc_lib
+  pigpiod_if2
+  pthread
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(${PROJECT_NAME}_node_no_bearing
+  cartesian_pose
+  force_to_pwm
+  gnss_l86_lib
+  gy_88_lib
+  esc_lib
+  pigpiod_if2
+  pthread
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(${PROJECT_NAME}_node_no_imu
   cartesian_pose
   force_to_pwm
   gnss_l86_lib
