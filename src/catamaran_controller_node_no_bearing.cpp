@@ -60,7 +60,7 @@ int main(int argc, char **argv)
     cart_pose cartesian_ref;
 
     // Distance from propeller to x-axis
-    float propeller_dist = 0.67;
+    float propeller_dist = 0.61;
     
     // Errors
     coordinates_2d cartesian_error;
@@ -69,8 +69,8 @@ int main(int argc, char **argv)
     float bearing_error;
 
     // Proportional gains
-    float linear_gain = 2;
-    float angular_gain = 3;
+    float linear_gain = 0.5;
+    float angular_gain = 0.167;
 
     // Damping coefs
     float damping_surge = 1.5437;
@@ -103,8 +103,8 @@ int main(int argc, char **argv)
     while (ros::ok())
     {
         // Wait for GPS signal
-        if (is_first_gps && !new_gps) continue;
-        else if (!ref_set)
+        //if (is_first_gps && !new_gps) continue;
+        if (!ref_set)
         {
             is_first_gps = false;
             ref_set = true;
@@ -151,7 +151,13 @@ int main(int argc, char **argv)
             else if (bearing_error < -M_PI) bearing_error += 2 * M_PI;
             bearing_error = 0;
 
-            if (distance_error < 2) break;
+            if (distance_error < 5)
+             {
+                left_esc.end();
+                right_esc.end();
+                break;
+
+             }
             else std::cout << "Distance to destiny -> " << distance_error << std::endl;
 
             // Calculate speeds
